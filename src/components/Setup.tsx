@@ -22,10 +22,10 @@ export function Setup({ onStart, onResume, canResume }: SetupProps) {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.45 }}
       >
-        <span className="eyebrow">Das klassische Handelsspiel</span>
-        <h1>Feilschen.<br /><em>Bluffen.</em> Gewinnen.</h1>
-        <p>Vier gleiche Tiere gehören zusammen. Doch der Weg zum Quartett führt über mutige Gebote und noch mutigere Kuhhandel.</p>
-        <div className="rule-chips"><span>2–5 Personen</span><span>40–60 Minuten</span><span>Pass &amp; Play</span></div>
+        <div className="landing-badge"><i /> Digitales Kartenspiel</div>
+        <h1>Dein Hof.<br />Dein Handel.<br /><em>Dein Sieg.</em></h1>
+        <p>Ersteigere Tiere, bluffe deine Freunde und baue den wertvollsten Hof. Der Klassiker – neu gedacht.</p>
+        <div className="rule-chips"><span><b>2–5</b> Personen</span><span><b>40–60</b> Minuten</span><span><b>∞</b> Spielspaß</span></div>
         <MarketScene />
       </motion.section>
       <motion.section
@@ -34,8 +34,8 @@ export function Setup({ onStart, onResume, canResume }: SetupProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.4 }}
       >
-        <div className="brand-mark">KH</div>
-        <p className="kicker">Neue Partie</p>
+        <div className="setup-card-head"><div className="brand-mark">KH</div><span>KUHHANDEL<small>THE AUCTION GAME</small></span></div>
+        <p className="kicker">Neue Partie erstellen</p>
         <h2>Wer handelt heute?</h2>
         <label>Personenzahl</label>
         <div className="segment">
