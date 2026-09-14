@@ -8,6 +8,48 @@ const green = '#245b47';
 const cream = '#f4dfaa';
 const terracotta = '#b85c38';
 
+/** A friendly procedural cow that gives the landing page a living focal point. */
+export function CowModel({ animated = true }: { animated?: boolean }) {
+  const cow = useRef<Group>(null);
+  const tail = useRef<Group>(null);
+  useFrame(({ clock }) => {
+    if (!animated) return;
+    if (cow.current) {
+      cow.current.position.y = -0.5 + Math.sin(clock.elapsedTime * 1.7) * 0.035;
+      cow.current.rotation.y = -0.22 + Math.sin(clock.elapsedTime * 0.7) * 0.08;
+    }
+    if (tail.current) tail.current.rotation.z = Math.sin(clock.elapsedTime * 3) * 0.3;
+  });
+  return (
+    <group ref={cow} position={[0.15, -0.5, 0.6]} rotation={[0, -0.22, 0]}>
+      <mesh castShadow scale={[1.15, 0.7, 0.62]}>
+        <sphereGeometry args={[0.7, 20, 14]} /><meshStandardMaterial color="#f7f0dd" roughness={0.8} />
+      </mesh>
+      <mesh castShadow position={[0.22, 0.12, 0.57]} scale={[0.28, 0.2, 0.04]}>
+        <sphereGeometry args={[1, 14, 10]} /><meshStandardMaterial color="#49382f" />
+      </mesh>
+      <group position={[0.82, 0.18, 0]}>
+        <mesh castShadow scale={[0.42, 0.42, 0.38]}>
+          <sphereGeometry args={[1, 18, 12]} /><meshStandardMaterial color="#f7f0dd" roughness={0.8} />
+        </mesh>
+        <mesh position={[0.34, -0.12, 0]} scale={[0.25, 0.2, 0.28]}>
+          <sphereGeometry args={[1, 14, 10]} /><meshStandardMaterial color="#dca9a0" />
+        </mesh>
+        {[-0.19, 0.19].map((z) => <mesh key={z} position={[0.36, 0.04, z]}><sphereGeometry args={[0.035, 10, 8]} /><meshStandardMaterial color="#17251f" /></mesh>)}
+        {[-0.42, 0.42].map((z) => <mesh key={z} position={[0, 0.2, z]} scale={[0.23, 0.08, 0.13]}><sphereGeometry args={[1, 10, 7]} /><meshStandardMaterial color="#49382f" /></mesh>)}
+      </group>
+      {[-0.48, 0.48].flatMap((x) => [-0.34, 0.34].map((z) => (
+        <mesh key={`${x}-${z}`} castShadow position={[x, -0.62, z]}>
+          <cylinderGeometry args={[0.075, 0.09, 0.72, 9]} /><meshStandardMaterial color="#eee2c8" />
+        </mesh>
+      )))}
+      <group ref={tail} position={[-0.82, 0.15, 0]} rotation={[0, 0, -0.5]}>
+        <mesh position={[-0.28, 0, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.025, 0.025, 0.55, 8]} /><meshStandardMaterial color="#49382f" /></mesh>
+      </group>
+    </group>
+  );
+}
+
 /** A small low-poly barn assembled from accessible, fast-loading primitives. */
 export function BarnModel() {
   return (
@@ -73,6 +115,7 @@ export function MarketScene() {
         <Float speed={reducedMotion ? 0 : 1.2} rotationIntensity={reducedMotion ? 0 : 0.08} floatIntensity={reducedMotion ? 0 : 0.18}>
           <BarnModel />
           <GavelModel />
+          <CowModel animated={!reducedMotion} />
           <CoinStackModel animated={!reducedMotion} />
         </Float>
         <ContactShadows position={[0, -1.05, 0]} opacity={0.28} scale={6} blur={2.4} />
