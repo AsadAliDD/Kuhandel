@@ -1,8 +1,8 @@
 export const ANIMALS = [
-  { id: 'horse', name: 'Pferd', emoji: '🐎', value: 1000 }, { id: 'cow', name: 'Kuh', emoji: '🐄', value: 800 },
-  { id: 'pig', name: 'Schwein', emoji: '🐖', value: 650 }, { id: 'goat', name: 'Ziege', emoji: '🐐', value: 500 },
-  { id: 'sheep', name: 'Schaf', emoji: '🐑', value: 350 }, { id: 'donkey', name: 'Esel', emoji: '🫏', value: 250 },
-  { id: 'dog', name: 'Hund', emoji: '🐕', value: 160 }, { id: 'cat', name: 'Katze', emoji: '🐈', value: 90 },
+  { id: 'horse', name: 'Horse', emoji: '🐎', value: 1000 }, { id: 'cow', name: 'Cow', emoji: '🐄', value: 800 },
+  { id: 'pig', name: 'Pig', emoji: '🐖', value: 650 }, { id: 'goat', name: 'Goat', emoji: '🐐', value: 500 },
+  { id: 'sheep', name: 'Sheep', emoji: '🐑', value: 350 }, { id: 'donkey', name: 'Donkey', emoji: '🫏', value: 250 },
+  { id: 'dog', name: 'Dog', emoji: '🐕', value: 160 }, { id: 'cat', name: 'Cat', emoji: '🐈', value: 90 },
 ] as const;
 export type AnimalId = typeof ANIMALS[number]['id']; export type Money = 0 | 10 | 20 | 50 | 100 | 200 | 500;
 export interface AnimalCard { uid: string; animal: AnimalId; value: number }
