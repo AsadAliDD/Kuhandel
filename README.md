@@ -13,6 +13,36 @@ npm run build     # type-check and production build
 npm test          # Vitest rules and component tests
 ```
 
+## Docker deployment
+
+Build the production bundle and start its nginx web server with Docker Compose:
+
+```bash
+docker compose up --build -d
+```
+
+The game is then available at <http://localhost:8080>. To use another host port,
+set `KUHHANDEL_PORT` when starting the service, for example:
+
+```bash
+KUHHANDEL_PORT=3000 docker compose up --build -d
+```
+
+Stop and remove the container with `docker compose down`.
+
+Every push also builds the production image in GitHub Actions and publishes it to
+the GitHub Container Registry. Images use the repository path
+`ghcr.io/<owner>/<repository>` and receive a branch tag plus an immutable
+`sha-<commit>` tag. Pushes to the default branch additionally update `latest`,
+and version tags such as `v1.0.0` are copied to the image.
+
+For example, after authenticating to GHCR when the package is private, run:
+
+```bash
+docker pull ghcr.io/<owner>/<repository>:latest
+docker run --detach --publish 8080:80 ghcr.io/<owner>/<repository>:latest
+```
+
 ## Controls and game flow
 
 1. Enter two to five names and start the game. Only the active player's hand should be visible; pass the device when turns change.
