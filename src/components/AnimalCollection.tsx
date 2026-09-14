@@ -21,8 +21,8 @@ export function AnimalCollection({ player }: { player: Player }) {
   return (
     <motion.section className="collection card" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
       <header>
-        <div><span className="kicker">Dein Viehbestand</span><h2>Tierkollektion</h2></div>
-        <span>{player.animals.length} Karten</span>
+        <div><span className="kicker">Your livestock</span><h2>Animal collection</h2></div>
+        <span>{player.animals.length} cards</span>
       </header>
       <motion.div className="animal-grid" variants={gridMotion} initial="hidden" animate="visible">
         {ANIMALS.map((animal, animalIndex) => {
@@ -45,12 +45,12 @@ export function AnimalCollection({ player }: { player: Player }) {
                 {animal.emoji}
               </motion.span>
               <strong>{animal.name}</strong>
-              <small>{animal.value} Punkte</small>
-              <div className="pips" aria-label={`${count} von 4 Karten`}>
+              <small>{animal.value} points</small>
+              <div className="pips" aria-label={`${count} von 4 cards`}>
                 {[0, 1, 2, 3].map((index) => <i className={index < count ? 'filled' : ''} key={index} />)}
               </div>
               <AnimatePresence>
-                {count === 4 && <motion.b initial={{ scale: 0, y: 5 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0 }}>Quartett!</motion.b>}
+                {count === 4 && <motion.b initial={{ scale: 0, y: 5 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0 }}>Complete set!</motion.b>}
               </AnimatePresence>
             </motion.article>
           );
