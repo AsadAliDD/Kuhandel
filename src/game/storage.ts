@@ -1,0 +1,5 @@
+import type { GameState } from './types'; const KEY='kuhhandel:active:v1';
+const phases=new Set(['setup','choose','auction','trade','finished']);
+export const saveGame=(s:GameState)=>{try{localStorage.setItem(KEY,JSON.stringify(s));}catch{/* storage unavailable */}};
+export const loadGame=():GameState|null=>{try{const value:unknown=JSON.parse(localStorage.getItem(KEY)??'null');if(!value||typeof value!=='object')return null;const s=value as Partial<GameState>;const validPlayers=Array.isArray(s.players)&&s.players.length>=2&&s.players.every(p=>p&&typeof p.id==='string'&&typeof p.name==='string'&&Array.isArray(p.money)&&Array.isArray(p.animals));const validDeck=Array.isArray(s.deck)&&s.deck.every(c=>c&&typeof c.uid==='string'&&typeof c.animal==='string'&&typeof c.value==='number');return s.version===1&&validPlayers&&validDeck&&Number.isInteger(s.currentPlayer)&&s.currentPlayer!<s.players!.length&&phases.has(s.phase??'')&&Array.isArray(s.history)?s as GameState:null;}catch{return null;}};
+export const clearGame=()=>{try{localStorage.removeItem(KEY);}catch{/* no-op */}};

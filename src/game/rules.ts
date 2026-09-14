@@ -1,0 +1,13 @@
+import { ANIMALS, type AnimalCard, type AnimalId, type GameState, type Money, type Player } from './types';
+export const STARTING_MONEY: Money[] = [0,0,10,10,20,50,100,200,500];
+export const totalMoney = (cards: readonly Money[]) => cards.reduce<number>((sum, card) => sum + card, 0);
+export const hasCards = (hand: readonly Money[], offer: readonly Money[]) => { const pool=[...hand]; return offer.every(card => { const i=pool.indexOf(card); if(i<0)return false; pool.splice(i,1); return true; }); };
+export const removeCards = (hand: readonly Money[], cards: readonly Money[]) => { if(!hasCards(hand,cards)) throw new Error('Payment contains unavailable cards'); const next=[...hand]; cards.forEach(card=>next.splice(next.indexOf(card),1)); return next; };
+export const buildDeck = (): AnimalCard[] => ANIMALS.flatMap(a=>Array.from({length:4},(_,i)=>({uid:`${a.id}-${i}`,animal:a.id,value:a.value})));
+export const shuffled = <T,>(items:readonly T[],seed=42):T[] => { const result=[...items]; let n=seed>>>0; for(let i=result.length-1;i>0;i--){n=(n*1664525+1013904223)>>>0;const j=n%(i+1);[result[i],result[j]]=[result[j],result[i]];}return result; };
+export const animalCount=(p:Player,a:AnimalId)=>p.animals.filter(c=>c.animal===a).length;
+export const ownsQuartet=(p:Player,a:AnimalId)=>animalCount(p,a)===4;
+export const legalTradeTargets=(s:GameState,id:string)=>{const actor=s.players.find(p=>p.id===id);if(!actor)return[];return s.players.filter(p=>p.id!==id&&p.animals.some(c=>actor.animals.some(a=>a.animal===c.animal))).map(p=>p.id);};
+export const scorePlayer=(p:Player)=>{const q=ANIMALS.filter(a=>ownsQuartet(p,a.id));return q.reduce((sum,a)=>sum+a.value,0)*q.length;};
+export const winnerIds=(players:Player[])=>{const scores=players.map(scorePlayer),best=Math.max(...scores);return players.filter((_,i)=>scores[i]===best).map(p=>p.id);};
+export const isGameOver=(s:GameState)=>s.deck.length===0&&!s.auction;
